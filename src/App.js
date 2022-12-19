@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import Services from "./components/Services";
 import Details from "./components/Details";
 import { Routes, Route } from "react-router-dom";
 
+import { servicesListRequest } from "./actions/servicesActions";
+import { useDispatch } from "react-redux";
+
 function App() {
-  const [services, setServices] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch("http://localhost:7070/api/services")
-      .then((response) => response.json())
-      .then((services) => setServices(services));
+    dispatch(servicesListRequest());
   }, []);
 
   return (
     <Routes>
-      <Route path="/" element={<Services list={services} />} />
-      <Route path="/:id/details" element={<Details list={services} />} />
+      <Route path="/" element={<Services />} />
+      <Route path="/:id/details" element={<Details />} />
     </Routes>
   )
 }
